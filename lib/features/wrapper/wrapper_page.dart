@@ -1,0 +1,33 @@
+// import 'package:diary_app/features/authentication/presentation/pages/login/login_page.dart';
+// import 'package:diary_app/features/diary_home/presentation/diary_home_page.dart';
+
+// class WrapperPage extends StatefulWidget {
+//   const WrapperPage({super.key});
+
+//   @override
+//   State<WrapperPage> createState() => _WrapperPageState();
+// }
+
+// class _WrapperPageState extends State<WrapperPage> {
+//   @override
+//   void initState() {
+//     context.read<AuthenticationBloc>().add(CheckUserLoggedIn());
+//     super.initState();
+//   }
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+//       builder: (context, state) {
+//         if (state is AuthenticationInitial) {
+//           if (state.isUserLoggedIn??false) {
+//             return  const DiaryHomePage();
+//           }else{
+//             return const LoginPage();
+//           }
+//         }else{
+//           return const LoginPage();
+//         }
+//       }
+//     );
+//   }
+// }
