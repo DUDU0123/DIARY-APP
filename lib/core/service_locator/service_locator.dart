@@ -1,4 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diary_app/features/authentication/data/data_sources/authentication_remote_data.dart';
+import 'package:diary_app/features/authentication/data/repository/auth_repo_impl/authentication_repository_impl.dart';
+import 'package:diary_app/features/authentication/domain/repository/auth_repo/authentication_repository.dart';
+import 'package:diary_app/features/authentication/domain/usecase/get_current_userid_usecase.dart';
+import 'package:diary_app/features/authentication/domain/usecase/user_login_usecase.dart';
+import 'package:diary_app/features/authentication/domain/usecase/user_logout_usecase.dart';
+import 'package:diary_app/features/authentication/domain/usecase/user_signup_usecase.dart';
+import 'package:diary_app/features/authentication/presentation/bloc/authentication/authentication_bloc.dart';
+import 'package:diary_app/features/settings/data/data_sources/profile_manager/profile_manager.dart';
+import 'package:diary_app/features/settings/data/repository/profile_manager_repo_impl/profile_manager_repo_impl.dart';
+import 'package:diary_app/features/settings/domain/repository/profile_manager_repo/profile_manager_repo.dart';
+import 'package:diary_app/features/settings/domain/usecase/update_user_profile_image_usecase.dart';
+import 'package:diary_app/features/settings/domain/usecase/updater_user_profile_usecase.dart';
+import 'package:diary_app/features/settings/presentation/bloc/settings_user_profile/setting_user_profile_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -6,85 +20,84 @@ import 'package:get_it/get_it.dart';
 GetIt serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
-  // initAuthDependencies();
-  // initUserProfileDependencies();
-  // initNoteDataDependencies();
+  initAuthDependencies();
+  initUserProfileDependencies();
   serviceLocator.registerLazySingleton(() => FirebaseAuth.instance);
   serviceLocator.registerLazySingleton(() => FirebaseStorage.instance);
   serviceLocator.registerLazySingleton(() => FirebaseFirestore.instance);
 }
 
-// void initAuthDependencies() {
-//   serviceLocator
-//     ..registerFactory<AuthRemoteDataSource>(
-//       () => AuthRemoteDataSourceImpl(
-//         firebaseAuth: serviceLocator<FirebaseAuth>(),
-//         firebaseFirestore: serviceLocator<FirebaseFirestore>(),
-//       ),
-//     )
-//     ..registerFactory<AuthRepository>(
-//       () => AuthRepositoryImpl(
-//         authRemoteDataSource: serviceLocator(),
-//       ),
-//     )
-//     ..registerFactory<UserSignUp>(
-//       () => UserSignUp(
-//         authRepository: serviceLocator(),
-//       ),
-//     )
-//     ..registerFactory(
-//       () => UserLogOut(
-//         authRepository: serviceLocator(),
-//       ),
-//     )
-//     ..registerFactory(
-//       () => UserLogin(
-//         authRepository: serviceLocator(),
-//       ),
-//     )
-//     ..registerFactory(
-//       () => GetCurrentUser(
-//         authRepository: serviceLocator(),
-//       ),
-//     )
-//     ..registerLazySingleton<AuthenticationBloc>(
-//       () => AuthenticationBloc(
-//         getCurrentUser: serviceLocator(),
-//         userSignUp: serviceLocator(),
-//         userLogOut: serviceLocator(),
-//         userLogIn: serviceLocator(),
-//       ),
-//     );
-// }
+void initAuthDependencies() {
+  serviceLocator
+    ..registerFactory<AuthenticationRemoteData>(
+      () => AuthenticationRemoteDataImpl(
+        firebaseAuth: serviceLocator<FirebaseAuth>(),
+        firebaseFirestore: serviceLocator<FirebaseFirestore>(),
+      ),
+    )
+    ..registerFactory<AuthenticationRepository>(
+      () => AuthenticationRepositoryImpl(
+        authenticationData: serviceLocator(),
+      ),
+    )
+    ..registerFactory<UserSignupUsecase>(
+      () => UserSignupUsecase(
+        authenticationRepository: serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => UserLogoutUsecase(
+        authenticationRepository: serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => UserLoginUsecase(
+        authenticationRepository: serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => GetCurrentUserIdUsecase(
+        authenticationRepository: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton<AuthenticationBloc>(
+      () => AuthenticationBloc(
+        getCurrentUserIdUsecase: serviceLocator(),
+        userSignupUsecase: serviceLocator(),
+        userLoginUsecase: serviceLocator(),
+        userLogoutUsecase: serviceLocator(),
+      ),
+    );
+}
 
-// void initUserProfileDependencies() {
-//   serviceLocator
-//     ..registerFactory<ProfileManager>(
-//       () => ProfileManagerImpl(
-//         firebaseFirestore: serviceLocator<FirebaseFirestore>(),
-//         firebaseAuth: serviceLocator<FirebaseAuth>(),
-//       ),
-//     )
-//     ..registerFactory<ProfileManagerRepo>(
-//       () => ProfileManagerRepoImpl(
-//         profileManager: serviceLocator(),
-//       ),
-//     )
-//     ..registerFactory<UpdaterUserProfileUsecase>(
-//       () => UpdaterUserProfileUsecase(
-//         profileManagerRepo: serviceLocator(),
-//       ),
-//     )
-//     ..registerFactory<UpdateUserProfileImageUsecase>(
-//       () => UpdateUserProfileImageUsecase(
-//         profileManagerRepo: serviceLocator(),
-//       ),
-//     )
-//     ..registerLazySingleton(
-//       () => SettingsProfileBloc(
-//         updateUserProfileImageUsecase: serviceLocator(),
-//         updaterUserProfileUsecase: serviceLocator(),
-//       ),
-//     );
-// }
+void initUserProfileDependencies() {
+  serviceLocator
+    ..registerFactory<ProfileManager>(
+      () => ProfileManagerImpl(
+        firebaseFirestore: serviceLocator<FirebaseFirestore>(),
+        firebaseAuth: serviceLocator<FirebaseAuth>(),
+      ),
+    )
+    ..registerFactory<ProfileManagerRepo>(
+      () => ProfileManagerRepoImpl(
+        profileManager: serviceLocator(),
+      ),
+    )
+    ..registerFactory<UpdaterUserProfileUsecase>(
+      () => UpdaterUserProfileUsecase(
+        profileManagerRepo: serviceLocator(),
+      ),
+    )
+    ..registerFactory<UpdateUserProfileImageUsecase>(
+      () => UpdateUserProfileImageUsecase(
+        profileManagerRepo: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => SettingUserProfileBloc(
+        updateUserProfileImageUsecase: serviceLocator(),
+        updaterUserProfileUsecase: serviceLocator(),
+      ),
+    );
+}
 

@@ -39,7 +39,7 @@ class TextWidgetCommon extends StatelessWidget {
       softWrap: softWrap,
       text,
       style: GoogleFonts.alegreyaSansSc(
-        color: textColor ?? kWhite,
+        color: textColor,
         fontWeight: fontWeight,
         fontSize: fontSize,
         decoration: decoration,

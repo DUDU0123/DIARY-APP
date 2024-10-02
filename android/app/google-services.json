@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "888785211003",
-    "project_id": "my-diary-journal-project",
-    "storage_bucket": "my-diary-journal-project.appspot.com"
+    "project_number": "467235190090",
+    "project_id": "dialy-journal-app-project",
+    "storage_bucket": "dialy-journal-app-project.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:888785211003:android:20658f954af66339691cde",
+        "mobilesdk_app_id": "1:467235190090:android:50e4b2cbf24a4854753db3",
         "android_client_info": {
           "package_name": "com.diary.official_diary_application"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDmAWU5s8v1neF2RyNp8GzNhhyYM5N9PjM"
+          "current_key": "AIzaSyCN0N53zfpzwfo1mgMuLwhcYxboRpwnOYE"
         }
       ],
       "services": {

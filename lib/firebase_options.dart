@@ -53,10 +53,10 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDmAWU5s8v1neF2RyNp8GzNhhyYM5N9PjM',
-    appId: '1:888785211003:android:20658f954af66339691cde',
-    messagingSenderId: '888785211003',
-    projectId: 'my-diary-journal-project',
-    storageBucket: 'my-diary-journal-project.appspot.com',
+    apiKey: 'AIzaSyCN0N53zfpzwfo1mgMuLwhcYxboRpwnOYE',
+    appId: '1:467235190090:android:50e4b2cbf24a4854753db3',
+    messagingSenderId: '467235190090',
+    projectId: 'dialy-journal-app-project',
+    storageBucket: 'dialy-journal-app-project.appspot.com',
   );
 }

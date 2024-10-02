@@ -47,6 +47,7 @@ class TextFieldCommon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      
       obscureText: obscureText,
       onChanged: onChanged,
       onTapOutside: (event) {
@@ -59,6 +60,7 @@ class TextFieldCommon extends StatelessWidget {
       style: style,
       keyboardType: keyboardType,
       controller: controller,
+      
       enabled: enabled,
       textAlign: textAlign,
       decoration: InputDecoration(
