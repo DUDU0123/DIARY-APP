@@ -28,6 +28,9 @@ class AuthenticationBloc
         _userLogoutUsecase = userLogoutUsecase,
         _getCurrentUserIdUsecase = getCurrentUserIdUsecase,
         super(AuthenticationInitial()) {
+    on<AuthenticationEvent>(
+      (event, emit) => emit(AuthenticationLoadingState()),
+    );
     on<SignUpUserEvent>(signUpUserEvent);
     on<LogInUserEvent>(logInUserEvent);
     on<LogOutUserEvent>(logOutUserEvent);
@@ -37,6 +40,7 @@ class AuthenticationBloc
 
   FutureOr<void> signUpUserEvent(
       SignUpUserEvent event, Emitter<AuthenticationState> emit) async {
+    emit(AuthenticationLoadingState());
     try {
       final res = await _userSignupUsecase(
           params: UserEntity(
@@ -46,7 +50,7 @@ class AuthenticationBloc
       res.fold(
         (left) => emit(AuthenticationErrorState(message: left.message)),
         (uid) {
-            uid != null
+          uid != null
               ? emit(AuthenticationSuccessState(userId: uid))
               : emit(AuthenticationErrorState(message: "User not found"));
         },
@@ -59,6 +63,8 @@ class AuthenticationBloc
   Future<FutureOr<void>> logInUserEvent(
       LogInUserEvent event, Emitter<AuthenticationState> emit) async {
     try {
+      emit(AuthenticationLoadingState());
+
       final res = await _userLoginUsecase(
           params: UserEntity(
         userEmail: event.userEmail,
@@ -73,7 +79,7 @@ class AuthenticationBloc
           uid != null
               ? emit(AuthenticationSuccessState(userId: uid))
               : emit(AuthenticationErrorState(message: "User not found"));
-          },
+        },
       );
     } catch (e) {
       emit(AuthenticationErrorState(message: e.toString()));
@@ -82,6 +88,8 @@ class AuthenticationBloc
 
   Future<FutureOr<void>> logOutUserEvent(
       LogOutUserEvent event, Emitter<AuthenticationState> emit) async {
+    emit(AuthenticationLoadingState());
+
     try {
       final res = await _userLogoutUsecase(params: null);
       res.fold(
@@ -107,6 +115,8 @@ class AuthenticationBloc
 
   FutureOr<void> getCurrentUserIdEvent(
       GetCurrentUserIdEvent event, Emitter<AuthenticationState> emit) async {
+    emit(AuthenticationLoadingState());
+
     try {
       final res = await _getCurrentUserIdUsecase(params: null);
       res.fold(
