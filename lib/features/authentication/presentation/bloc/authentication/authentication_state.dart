@@ -7,11 +7,16 @@ sealed class AuthenticationState extends Equatable {
 }
 
 final class AuthenticationInitial extends AuthenticationState {
-  final String? currentUserId; final bool? isUserLoggedIn;
-  AuthenticationInitial({this.currentUserId, this.isUserLoggedIn,});
+  final String? currentUserId;
+  final bool? isUserLoggedIn;
+  AuthenticationInitial({
+    this.currentUserId,
+    this.isUserLoggedIn = false,
+  });
   @override
   List<Object?> get props => [
-        currentUserId,isUserLoggedIn,
+        currentUserId,
+        isUserLoggedIn,
       ];
 }
 
