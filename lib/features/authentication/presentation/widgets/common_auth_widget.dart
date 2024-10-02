@@ -11,7 +11,6 @@ import 'package:diary_app/core/utils/message_show_helper.dart';
 import 'package:diary_app/features/authentication/presentation/bloc/authentication/authentication_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AuthWidget extends StatelessWidget {
   const AuthWidget({
@@ -71,7 +70,6 @@ class AuthWidget extends StatelessWidget {
                         kHeight30,
                         TextFieldCommon(
                           hintText: "Enter email",
-                          style: GoogleFonts.alegreyaSansSc(color: kWhite),
                           hintStyle: const TextStyle(color: kWhite),
                           border: const OutlineInputBorder(
                               borderSide: BorderSide(color: kLightYellowColor)),
@@ -80,7 +78,6 @@ class AuthWidget extends StatelessWidget {
                         ),
                         kHeight15,
                         TextFieldCommon(
-                          style: GoogleFonts.alegreyaSansSc(color: kWhite),
                           hintText: "Enter password",
                           hintStyle: const TextStyle(color: kWhite),
                           border: const OutlineInputBorder(

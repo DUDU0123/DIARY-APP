@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TextWidgetCommon extends StatelessWidget {
   const TextWidgetCommon({
@@ -37,7 +36,7 @@ class TextWidgetCommon extends StatelessWidget {
       overflow: overflow,
       softWrap: softWrap,
       text,
-      style: GoogleFonts.alegreyaSansSc(
+      style: TextStyle(
         color: textColor,
         fontWeight: fontWeight,
         fontSize: fontSize,

@@ -31,7 +31,7 @@ class ProfileManagerImpl implements ProfileManager {
       }
       final currentUserData = await CommonDbFunctions.getUserDataByIdAsFuture(
           userId: firebaseAuth.currentUser?.uid);
-          log("Outside");
+      log("Outside");
       if (currentUserData?.userPassword != updatedUserData.userPassword) {
         log("inside update password");
         await firebaseAuth.currentUser
@@ -43,7 +43,7 @@ class ProfileManagerImpl implements ProfileManager {
           .update(
             updatedUserData.toJson(),
           );
-    } on FirebaseException catch (e) {
+    } on FirebaseException catch (_) {
       // throw FirebaseExceptionHandler.getFirebaseException(firebaseException: e);
     } catch (e) {
       throw ServerException(message: e.toString());
@@ -65,7 +65,7 @@ class ProfileManagerImpl implements ProfileManager {
         userProfilePic: downloadUrl,
       );
       await updateUserProfile(updatedUserData: updatedUserData);
-    } on FirebaseException catch (e) {
+    } on FirebaseException catch (_) {
       // throw FirebaseExceptionHandler.getFirebaseException(firebaseException: e);
     } catch (e) {
       throw ServerException(message: e.toString());
