@@ -1,4 +1,5 @@
 import 'package:diary_app/config/routes/app_routes.dart';
+import 'package:diary_app/config/routes/page_transition.dart';
 import 'package:diary_app/config/routes/routes_name.dart';
 import 'package:diary_app/core/constants/navigator_key.dart';
 import 'package:diary_app/core/service_locator/service_locator.dart';
@@ -27,7 +28,15 @@ class RootWidgetPage extends StatelessWidget {
       child: MaterialApp(
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(fontFamily: 'Alegreya Sans SC'),
+        theme: ThemeData(
+          fontFamily: 'Alegreya Sans SC',
+          pageTransitionsTheme: PageTransitionsTheme(
+            builders: {
+              TargetPlatform.android: FadePageTransitionsBuilder(),
+              TargetPlatform.iOS: FadePageTransitionsBuilder(),
+            },
+          ),
+        ),
         initialRoute: AppRouteName.wrapperPage,
         routes: AppRoutes.routes,
       ),
