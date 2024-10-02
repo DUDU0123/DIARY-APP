@@ -1,4 +1,3 @@
-import 'package:diary_app/core/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

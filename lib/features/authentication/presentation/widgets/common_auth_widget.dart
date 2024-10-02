@@ -1,5 +1,6 @@
 import 'package:diary_app/config/routes/routes_name.dart';
 import 'package:diary_app/core/common_widgets/common_container_button.dart';
+import 'package:diary_app/core/common_widgets/common_loading.dart';
 import 'package:diary_app/core/common_widgets/text_field_common_widget.dart';
 import 'package:diary_app/core/common_widgets/text_widget_common.dart';
 import 'package:diary_app/core/constants/colors.dart';
@@ -19,13 +20,14 @@ class AuthWidget extends StatelessWidget {
     required this.emailController,
     required this.passwordController,
   });
+
   final PageType pageType;
   final TextEditingController emailController;
   final TextEditingController passwordController;
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthenticationBloc, AuthenticationState>(
+    return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationErrorState) {
           MessageShowHelper.showSnackbar(snackBarContent: state.message);
@@ -37,117 +39,120 @@ class AuthWidget extends StatelessWidget {
           );
         }
       },
-      child: Stack(
-        children: [
-          SizedBox(
-            width: screenWidth(context: context),
-            height: screenHeight(context: context),
-            child: Image.asset(
-              "assets/diary_bg.png",
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            top: 50,
-            left: 15,
-            child: TextWidgetCommon(
-              textColor: kLightYellowColor ,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              text: pageType == PageType.login ? "Login" : "SignUp",
-            ),
-          ),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: SizedBox(
-                height: screenHeight(context: context),
-                width: screenWidth(context: context),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    kHeight30,
-                    TextFieldCommon(
-                      hintText: "Enter email",
-                      style: GoogleFonts.alegreyaSansSc(color: kWhite),
-                      hintStyle: const TextStyle(color: kWhite),
-                      border: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: kLightYellowColor)),
-                      controller: emailController,
-                      textAlign: TextAlign.start,
-                    ),
-                    kHeight15,
-                    TextFieldCommon(
-                      style: GoogleFonts.alegreyaSansSc(color: kWhite),
-                      hintText: "Enter password",
-                      hintStyle: const TextStyle(color: kWhite),
-                      border: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: kLightYellowColor)),
-                      controller: passwordController,
-                      textAlign: TextAlign.start,
-                    ),
-                    kHeight15,
-                    commonContainerButton(
-                      onTap: () {
-                        final email = emailController.text;
-                        final password = passwordController.text;
-                        if (pageType == PageType.login) {
-                          context.read<AuthenticationBloc>().add(
-                                LogInUserEvent(
-                                  userEmail: email,
-                                  userPassword: password,
-                                ),
-                              );
-                        } else {
-                          context.read<AuthenticationBloc>().add(
-                                SignUpUserEvent(
-                                  userEmail: email,
-                                  userPassword: password,
-                                ),
-                              );
-                        }
-                      },
-                      buttonText:
-                          pageType == PageType.login ? "Login" : "SignUp",
-                    ),
-                    kHeight10,
-                    Row(
+      builder: (context, state) {
+        return Stack(
+          children: [
+            SizedBox(
+              width: screenWidth(context: context),
+              height: screenHeight(context: context),
+              child: Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/diary_bg.png"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: SingleChildScrollView(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: SizedBox(
+                    height: screenHeight(context: context),
+                    width: screenWidth(context: context),
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        kHeight30,
                         TextWidgetCommon(
-                          textColor: kWhite,
-                          text: pageType == PageType.login
-                              ? "Don't have an account?"
-                              : "Already have an account?",
+                          textColor: kLightYellowColor,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          text: pageType == PageType.login ? "Login" : "SignUp",
                         ),
-                        GestureDetector(
+                        kHeight30,
+                        TextFieldCommon(
+                          hintText: "Enter email",
+                          style: GoogleFonts.alegreyaSansSc(color: kWhite),
+                          hintStyle: const TextStyle(color: kWhite),
+                          border: const OutlineInputBorder(
+                              borderSide: BorderSide(color: kLightYellowColor)),
+                          controller: emailController,
+                          textAlign: TextAlign.start,
+                        ),
+                        kHeight15,
+                        TextFieldCommon(
+                          style: GoogleFonts.alegreyaSansSc(color: kWhite),
+                          hintText: "Enter password",
+                          hintStyle: const TextStyle(color: kWhite),
+                          border: const OutlineInputBorder(
+                              borderSide: BorderSide(color: kLightYellowColor)),
+                          controller: passwordController,
+                          textAlign: TextAlign.start,
+                        ),
+                        kHeight15,
+                        commonContainerButton(
                           onTap: () {
+                            final email = emailController.text;
+                            final password = passwordController.text;
                             if (pageType == PageType.login) {
-                              navigatorKey.currentState
-                                  ?.pushNamed(AppRouteName.signUpPage);
+                              context.read<AuthenticationBloc>().add(
+                                    LogInUserEvent(
+                                      userEmail: email,
+                                      userPassword: password,
+                                    ),
+                                  );
                             } else {
-                              navigatorKey.currentState
-                                  ?.pushNamed(AppRouteName.loginPage);
+                              context.read<AuthenticationBloc>().add(
+                                    SignUpUserEvent(
+                                      userEmail: email,
+                                      userPassword: password,
+                                    ),
+                                  );
                             }
                           },
-                          child: TextWidgetCommon(
-                            fontWeight: FontWeight.bold,
-                            textColor: kWhite,
-                            text:
-                                pageType == PageType.login ? "SignUp" : "Login",
-                          ),
+                          buttonText:
+                              pageType == PageType.login ? "Login" : "SignUp",
                         ),
+                        kHeight10,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextWidgetCommon(
+                              textColor: kWhite,
+                              text: pageType == PageType.login
+                                  ? "Don't have an account?"
+                                  : "Already have an account?",
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                if (pageType == PageType.login) {
+                                  navigatorKey.currentState
+                                      ?.pushNamed(AppRouteName.signUpPage);
+                                } else {
+                                  navigatorKey.currentState
+                                      ?.pushNamed(AppRouteName.loginPage);
+                                }
+                              },
+                              child: TextWidgetCommon(
+                                fontWeight: FontWeight.bold,
+                                textColor: kWhite,
+                                text: pageType == PageType.login
+                                    ? "SignUp"
+                                    : "Login",
+                              ),
+                            ),
+                          ],
+                        )
                       ],
-                    )
-                  ],
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
+            if (state is AuthenticationLoadingState)
+              const OverlayLoadingHolder()
+          ],
+        );
+      },
     );
   }
 }
