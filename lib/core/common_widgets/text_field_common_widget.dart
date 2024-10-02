@@ -1,5 +1,6 @@
 import 'package:diary_app/core/constants/colors.dart';
 import 'package:flutter/material.dart';
+
 class TextFieldCommon extends StatelessWidget {
   const TextFieldCommon({
     super.key,
@@ -12,7 +13,6 @@ class TextFieldCommon extends StatelessWidget {
     this.keyboardType,
     this.style,
     this.prefix,
-
     this.fillColor,
     this.focusNode,
     this.maxLines = 1,
@@ -47,7 +47,6 @@ class TextFieldCommon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      
       obscureText: obscureText,
       onChanged: onChanged,
       onTapOutside: (event) {
@@ -57,10 +56,9 @@ class TextFieldCommon extends StatelessWidget {
       minLines: minLines ?? 1,
       focusNode: focusNode,
       cursorColor: cursorColor ?? kBlack,
-      style: style,
+      style: style ?? const TextStyle(color: Colors.white),
       keyboardType: keyboardType,
       controller: controller,
-      
       enabled: enabled,
       textAlign: textAlign,
       decoration: InputDecoration(

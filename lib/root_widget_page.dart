@@ -27,6 +27,7 @@ class RootWidgetPage extends StatelessWidget {
       child: MaterialApp(
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(fontFamily: 'Alegreya Sans SC'),
         initialRoute: AppRouteName.wrapperPage,
         routes: AppRoutes.routes,
       ),

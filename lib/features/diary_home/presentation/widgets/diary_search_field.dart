@@ -7,10 +7,10 @@ class DiarySearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(25),
+        color: Colors.white.withOpacity(.6),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: const Row(
         children: [

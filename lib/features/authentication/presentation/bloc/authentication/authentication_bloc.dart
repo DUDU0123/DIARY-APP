@@ -88,8 +88,6 @@ class AuthenticationBloc
 
   Future<FutureOr<void>> logOutUserEvent(
       LogOutUserEvent event, Emitter<AuthenticationState> emit) async {
-    emit(AuthenticationLoadingState());
-
     try {
       final res = await _userLogoutUsecase(params: null);
       res.fold(
@@ -104,6 +102,7 @@ class AuthenticationBloc
   Future<FutureOr<void>> checkUserLoggedInEvent(
       CheckUserLoggedInEvent event, Emitter<AuthenticationState> emit) async {
     try {
+      await Future.delayed(const Duration(seconds: 3));
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       final isLoggedIn = sharedPreferences.getBool(userAuthStatus);
