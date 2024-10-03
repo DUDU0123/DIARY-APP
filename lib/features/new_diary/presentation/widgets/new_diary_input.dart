@@ -3,11 +3,9 @@ import 'package:diary_app/features/new_diary/presentation/widgets/diary_line.dar
 import 'package:flutter/material.dart';
 
 class DiaryPage extends StatelessWidget {
-  DiaryPage({super.key});
-  final List<TextEditingController> _controllers = List.generate(
-    15,
-    (index) => TextEditingController(),
-  );
+  final List<TextEditingController> controllers;
+  final Function() onSave;
+  DiaryPage({super.key, required this.controllers, required this.onSave});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +19,7 @@ class DiaryPage extends StatelessWidget {
               itemCount: 15,
               itemBuilder: (context, index) {
                 return DiaryLine(
-                  controller: _controllers[index],
+                  controller: controllers[index],
                 );
               },
             ),
@@ -29,7 +27,7 @@ class DiaryPage extends StatelessWidget {
           Align(
               alignment: Alignment.bottomRight,
               child: AddButton(
-                onPressed: () {},
+                onPressed: onSave,
               )),
         ],
       ),
