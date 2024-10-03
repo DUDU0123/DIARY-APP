@@ -18,6 +18,7 @@ class _WrapperPageState extends State<WrapperPage> {
     context.read<AuthenticationBloc>().add(CheckUserLoggedInEvent());
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
@@ -27,10 +28,10 @@ class _WrapperPageState extends State<WrapperPage> {
           if (state.isUserLoggedIn ?? false) {
             return const DiaryHomePage();
           } else {
-            return const LoginPage();
+            return const DiaryHomePage();
           }
         } else {
-          return const LoginPage();
+          return const DiaryHomePage();
         }
       },
     );

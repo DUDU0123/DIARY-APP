@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
 
 class AddButton extends StatelessWidget {
-  const AddButton({super.key});
+  final Function() onPressed;
+  const AddButton({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return ElevatedButton(
+      onPressed: () {},
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.pink[100],
+        padding: const EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 12,
+        ),
+      ),
+      child: const Text(
+        'SAVE',
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
   }
 }
