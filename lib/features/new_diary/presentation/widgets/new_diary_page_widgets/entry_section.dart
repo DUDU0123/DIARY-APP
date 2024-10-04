@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:diary_app/features/new_diary/domain/entities/diary.dart';
 import 'package:diary_app/features/new_diary/presentation/bloc/diary_manager/diary_manager_bloc.dart';
 import 'package:diary_app/features/new_diary/presentation/widgets/new_diary_input.dart';

@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diary_app/core/error/exceptions/exceptions.dart';
+import 'package:diary_app/core/service_locator/service_locator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../models/diary_model.dart';
 
 abstract class DiaryRemoteDataSource {
@@ -12,9 +15,24 @@ class DiaryRemoteDataSourceImpl implements DiaryRemoteDataSource {
 
   @override
   Future<void> addDiaryEntry(DiaryModel diaryModel) async {
-    await firestore
-        .collection('diary')
-        .doc(diaryModel.id)
-        .set(diaryModel.toMap());
+    final currentUser = serviceLocator<FirebaseAuth>().currentUser;
+    print(diaryModel.content);
+    print(currentUser?.uid);
+    try {
+      if (currentUser != null) {
+        print('sdfjdpof');
+        final DocumentReference<Map<String, dynamic>> reference =
+            await firestore
+                .collection('users')
+                .doc(currentUser.uid)
+                .collection('diary')
+                .add(diaryModel.toMap());
+        final String id = reference.id;
+        reference.update({'id': id});
+      }
+    } catch (e) {
+      print(e);
+      throw ServerException(message: e.toString());
+    }
   }
 }

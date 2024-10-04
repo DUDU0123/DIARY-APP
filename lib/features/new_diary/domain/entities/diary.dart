@@ -1,4 +1,6 @@
-class Diary {
+import 'package:equatable/equatable.dart';
+
+class Diary extends Equatable {
   final String id;
   final String title;
   final String content;
@@ -10,4 +12,7 @@ class Diary {
     required this.content,
     required this.createdAt,
   });
+
+  @override
+  List<Object?> get props => [id, title, content, createdAt];
 }

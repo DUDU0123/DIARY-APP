@@ -25,4 +25,19 @@ class DiaryModel extends Diary {
       'createdAt': createdAt,
     };
   }
+
+  // CopyWith method to create a new instance with modified values
+  DiaryModel copyWith({
+    String? id,
+    String? title,
+    String? content,
+    DateTime? createdAt,
+  }) {
+    return DiaryModel(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      content: content ?? this.content,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
 }

@@ -13,7 +13,7 @@ class DiaryManagerBloc extends Bloc<DiaryManagerEvent, DiaryManagerState> {
     on<AddDiaryEvent>((event, emit) async {
       emit(DiaryAdding());
       try {
-        await addDiaryEntryUseCase(event.diary);
+        await addDiaryEntryUseCase(params: event.diary);
         emit(DiaryAdded());
       } catch (e) {
         emit(DiaryAddingFailed());

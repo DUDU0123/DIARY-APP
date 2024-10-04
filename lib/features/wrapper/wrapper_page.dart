@@ -28,10 +28,10 @@ class _WrapperPageState extends State<WrapperPage> {
           if (state.isUserLoggedIn ?? false) {
             return const DiaryHomePage();
           } else {
-            return const DiaryHomePage();
+            return const LoginPage();
           }
         } else {
-          return const DiaryHomePage();
+          return const LoginPage();
         }
       },
     );
