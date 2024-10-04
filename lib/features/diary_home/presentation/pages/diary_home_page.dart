@@ -1,5 +1,5 @@
-
 import 'package:diary_app/core/constants/height_width.dart';
+import 'package:diary_app/features/diary_home/presentation/widgets/create_diary.dart';
 import 'package:diary_app/features/diary_home/presentation/widgets/diary_entry.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +26,7 @@ class DiaryHomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // CreateDiary(),
+            CreateDiary(),
             kHeight15,
             DiarySearchField(),
             kHeight15,
