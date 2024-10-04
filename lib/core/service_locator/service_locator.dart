@@ -7,6 +7,11 @@ import 'package:diary_app/features/authentication/domain/usecase/user_login_usec
 import 'package:diary_app/features/authentication/domain/usecase/user_logout_usecase.dart';
 import 'package:diary_app/features/authentication/domain/usecase/user_signup_usecase.dart';
 import 'package:diary_app/features/authentication/presentation/bloc/authentication/authentication_bloc.dart';
+import 'package:diary_app/features/new_diary/data/datasources/diary_remote_data_source.dart';
+import 'package:diary_app/features/new_diary/data/repositories/diary_repository_impl.dart';
+import 'package:diary_app/features/new_diary/domain/repositories/diary_repository.dart';
+import 'package:diary_app/features/new_diary/domain/usecases/add_diary_entry.dart';
+import 'package:diary_app/features/new_diary/presentation/bloc/diary_manager/diary_manager_bloc.dart';
 import 'package:diary_app/features/settings/data/data_sources/profile_manager/profile_manager.dart';
 import 'package:diary_app/features/settings/data/repository/profile_manager_repo_impl/profile_manager_repo_impl.dart';
 import 'package:diary_app/features/settings/domain/repository/profile_manager_repo/profile_manager_repo.dart';
@@ -22,6 +27,7 @@ GetIt serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
   initAuthDependencies();
   initUserProfileDependencies();
+  initDiaryDependencies();
   serviceLocator.registerLazySingleton(() => FirebaseAuth.instance);
   serviceLocator.registerLazySingleton(() => FirebaseStorage.instance);
   serviceLocator.registerLazySingleton(() => FirebaseFirestore.instance);
@@ -99,4 +105,14 @@ void initUserProfileDependencies() {
         updaterUserProfileUsecase: serviceLocator(),
       ),
     );
+}
+
+void initDiaryDependencies() {
+  serviceLocator
+    ..registerFactory<DiaryRemoteDataSource>(
+        () => DiaryRemoteDataSourceImpl(serviceLocator()))
+    ..registerFactory<DiaryRepository>(
+        () => DiaryRepositoryImpl(serviceLocator()))
+    ..registerFactory(() => AddDiaryEntry(serviceLocator()))
+    ..registerLazySingleton(() => DiaryManagerBloc(serviceLocator()));
 }

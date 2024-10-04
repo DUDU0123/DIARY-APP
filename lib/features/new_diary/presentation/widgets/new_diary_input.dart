@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class DiaryPage extends StatelessWidget {
   final List<TextEditingController> controllers;
   final Function() onSave;
-  DiaryPage({super.key, required this.controllers, required this.onSave});
+  const DiaryPage({super.key, required this.controllers, required this.onSave});
 
   @override
   Widget build(BuildContext context) {
