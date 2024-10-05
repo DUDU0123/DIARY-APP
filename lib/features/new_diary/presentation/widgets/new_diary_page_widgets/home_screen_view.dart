@@ -1,13 +1,16 @@
 import 'package:diary_app/core/service_locator/service_locator.dart';
 import 'package:diary_app/features/new_diary/presentation/bloc/diary_manager/diary_manager_bloc.dart';
-import 'package:diary_app/features/new_diary/presentation/widgets/input_field.dart';
 import 'package:diary_app/features/new_diary/presentation/widgets/new_diary_page_widgets/entry_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// ignore: must_be_immutable
 class HomeScreenView extends StatelessWidget {
-  const HomeScreenView({super.key});
-
+  HomeScreenView({super.key});
+  TextEditingController titleController = TextEditingController();
+  TextEditingController dateController = TextEditingController(
+    text: 'dAte',
+  );
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -22,18 +25,7 @@ class HomeScreenView extends StatelessWidget {
                 .showSnackBar(const SnackBar(content: Text('Failed to add')));
           }
         },
-        child: Column(
-          children: [
-            const InputField(
-              hintText: 'Date',
-              leadingIcon: Icon(Icons.calendar_month),
-            ),
-            const InputField(
-              hintText: 'Title',
-            ),
-            EntrySection(),
-          ],
-        ),
+        child: EntrySection(),
       ),
     );
   }

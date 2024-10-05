@@ -16,11 +16,8 @@ class DiaryRemoteDataSourceImpl implements DiaryRemoteDataSource {
   @override
   Future<void> addDiaryEntry(DiaryModel diaryModel) async {
     final currentUser = serviceLocator<FirebaseAuth>().currentUser;
-    print(diaryModel.content);
-    print(currentUser?.uid);
     try {
       if (currentUser != null) {
-        print('sdfjdpof');
         final DocumentReference<Map<String, dynamic>> reference =
             await firestore
                 .collection('users')
@@ -31,7 +28,6 @@ class DiaryRemoteDataSourceImpl implements DiaryRemoteDataSource {
         reference.update({'id': id});
       }
     } catch (e) {
-      print(e);
       throw ServerException(message: e.toString());
     }
   }

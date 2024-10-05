@@ -8,9 +8,9 @@ class NewDiaryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
         backgroundColor: kPink,
-        appBar: NewDiaryAppBar(),
+        appBar: const NewDiaryAppBar(),
         body: HomeScreenView());
   }
 }
