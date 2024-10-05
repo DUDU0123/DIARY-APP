@@ -1,4 +1,4 @@
-import 'package:diary_app/features/new_diary/domain/entities/diary.dart';
+import 'package:diary_app/core/common_entity/diary.dart';
 import 'package:diary_app/features/new_diary/domain/usecases/add_diary_entry.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

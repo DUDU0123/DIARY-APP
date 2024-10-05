@@ -6,7 +6,7 @@ class Diary extends Equatable {
   final String content;
   final DateTime createdAt;
 
-  Diary({
+  const Diary({
     required this.id,
     required this.title,
     required this.content,

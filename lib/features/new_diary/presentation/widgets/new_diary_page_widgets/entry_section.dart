@@ -1,10 +1,11 @@
 import 'package:diary_app/core/extensions/date_format.dart';
-import 'package:diary_app/features/new_diary/domain/entities/diary.dart';
+import 'package:diary_app/core/common_entity/diary.dart';
 import 'package:diary_app/features/new_diary/presentation/bloc/diary_manager/diary_manager_bloc.dart';
 import 'package:diary_app/features/new_diary/presentation/widgets/diary_entry_field.dart';
 import 'package:diary_app/features/new_diary/presentation/widgets/input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uuid/uuid.dart';
 
 // ignore: must_be_immutable
 class EntrySection extends StatelessWidget {
@@ -32,12 +33,11 @@ class EntrySection extends StatelessWidget {
           contentController: contentController,
           onSave: () {
             Diary diary = Diary(
-                id: '1',
-                title: titleController.text,
-                content: contentController.text,
+                id: const Uuid().v4(),
+                title: titleController.text.trim(),
+                content: contentController.text.trim(),
                 createdAt: DateTime.now());
-            print(diary.toString());
-            // context.read<DiaryManagerBloc>().add(AddDiaryEvent(diary));
+            context.read<DiaryManagerBloc>().add(AddDiaryEvent(diary));
           },
         )),
       ],

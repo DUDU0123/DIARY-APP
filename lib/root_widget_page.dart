@@ -4,6 +4,7 @@ import 'package:diary_app/config/routes/routes_name.dart';
 import 'package:diary_app/core/constants/navigator_key.dart';
 import 'package:diary_app/core/service_locator/service_locator.dart';
 import 'package:diary_app/features/authentication/presentation/bloc/authentication/authentication_bloc.dart';
+import 'package:diary_app/features/diary_home/presentation/diary_feed_cubit/diary_feed_cubit.dart';
 import 'package:diary_app/features/settings/presentation/bloc/settings_user_profile/setting_user_profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +25,10 @@ class RootWidgetPage extends StatelessWidget {
         BlocProvider(
           create: (context) => serviceLocator<SettingUserProfileBloc>(),
         ),
+        BlocProvider(
+          create: (context) => serviceLocator<DiaryFeedCubit>()..fetchDiaries(),
+          child: Container(),
+        )
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

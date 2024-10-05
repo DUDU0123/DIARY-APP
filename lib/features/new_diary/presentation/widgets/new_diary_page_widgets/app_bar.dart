@@ -21,7 +21,6 @@ class NewDiaryAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  // Define the size of the custom AppBar
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

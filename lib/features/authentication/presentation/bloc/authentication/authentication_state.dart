@@ -43,3 +43,6 @@ class AuthenticationErrorState extends AuthenticationState {
         message,
       ];
 }
+
+class UserAuthenticated extends AuthenticationState {}
+class UserNotAuthenticated extends AuthenticationState {}

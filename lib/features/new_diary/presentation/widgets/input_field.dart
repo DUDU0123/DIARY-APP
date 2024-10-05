@@ -19,8 +19,7 @@ class InputField extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: Container(
           decoration: BoxDecoration(
-              color: kLightYellowColor,
-              borderRadius: BorderRadius.circular(20)),
+              color: kFadedYellow, borderRadius: BorderRadius.circular(20)),
           child: Padding(
             padding: const EdgeInsets.only(left: 10, right: 10),
             child: Row(
@@ -28,6 +27,7 @@ class InputField extends StatelessWidget {
                 leadingIcon ?? const SizedBox(),
                 Expanded(
                   child: TextField(
+                    controller: controller,
                     enabled: isEnabled ?? true,
                     decoration: InputDecoration(
                       border: InputBorder.none,

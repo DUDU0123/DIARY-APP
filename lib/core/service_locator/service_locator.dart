@@ -7,6 +7,11 @@ import 'package:diary_app/features/authentication/domain/usecase/user_login_usec
 import 'package:diary_app/features/authentication/domain/usecase/user_logout_usecase.dart';
 import 'package:diary_app/features/authentication/domain/usecase/user_signup_usecase.dart';
 import 'package:diary_app/features/authentication/presentation/bloc/authentication/authentication_bloc.dart';
+import 'package:diary_app/features/diary_home/data/data_source/diary_feed_datasource.dart';
+import 'package:diary_app/features/diary_home/data/repository/diary_feed_repo_impl.dart';
+import 'package:diary_app/features/diary_home/domain/repository/diary_feed_repository.dart';
+import 'package:diary_app/features/diary_home/domain/usecases/get_diaries.dart';
+import 'package:diary_app/features/diary_home/presentation/diary_feed_cubit/diary_feed_cubit.dart';
 import 'package:diary_app/features/new_diary/data/datasources/diary_remote_data_source.dart';
 import 'package:diary_app/features/new_diary/data/repositories/diary_repository_impl.dart';
 import 'package:diary_app/features/new_diary/domain/repositories/diary_repository.dart';
@@ -28,6 +33,7 @@ Future<void> initDependencies() async {
   initAuthDependencies();
   initUserProfileDependencies();
   initDiaryDependencies();
+  diaryFeed();
   serviceLocator.registerLazySingleton(() => FirebaseAuth.instance);
   serviceLocator.registerLazySingleton(() => FirebaseStorage.instance);
   serviceLocator.registerLazySingleton(() => FirebaseFirestore.instance);
@@ -114,5 +120,17 @@ void initDiaryDependencies() {
     ..registerFactory<DiaryRepository>(
         () => DiaryRepositoryImpl(serviceLocator()))
     ..registerFactory(() => AddDiaryEntry(serviceLocator()))
-    ..registerLazySingleton(() => DiaryManagerBloc(serviceLocator()));
+    ..registerFactory(() => DiaryManagerBloc(serviceLocator()));
+}
+
+void diaryFeed() {
+  serviceLocator
+    ..registerLazySingleton<DiaryFeedDatasource>(
+        () => DiaryFeedDatasourceImpl(firestore: serviceLocator()))
+    ..registerLazySingleton<DiaryFeedRepository>(
+        () => DiaryFeedRepoImpl(remoteDataSource: serviceLocator()))
+    ..registerLazySingleton(
+        () => GetDiariesUseCases(diaryFeedRepository: serviceLocator()))
+    ..registerFactory(
+        () => DiaryFeedCubit(getDiariesUseCases: serviceLocator()));
 }

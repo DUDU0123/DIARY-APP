@@ -18,14 +18,14 @@ class DiaryRemoteDataSourceImpl implements DiaryRemoteDataSource {
     final currentUser = serviceLocator<FirebaseAuth>().currentUser;
     try {
       if (currentUser != null) {
-        final DocumentReference<Map<String, dynamic>> reference =
-            await firestore
-                .collection('users')
-                .doc(currentUser.uid)
-                .collection('diary')
-                .add(diaryModel.toMap());
-        final String id = reference.id;
-        reference.update({'id': id});
+        final DocumentReference<Map<String, dynamic>> reference = firestore
+            .collection('users')
+            .doc(currentUser.uid)
+            .collection('diary')
+            .doc(diaryModel.id); 
+
+        await reference
+            .set(diaryModel.toMap());
       }
     } catch (e) {
       throw ServerException(message: e.toString());
