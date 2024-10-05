@@ -28,6 +28,9 @@ class AuthenticationBloc
         _userLogoutUsecase = userLogoutUsecase,
         _getCurrentUserIdUsecase = getCurrentUserIdUsecase,
         super(AuthenticationInitial()) {
+    on<AuthenticationEvent>(
+      (event, emit) => emit(AuthenticationLoadingState()),
+    );
     on<SignUpUserEvent>(signUpUserEvent);
     on<LogInUserEvent>(logInUserEvent);
     on<LogOutUserEvent>(logOutUserEvent);
@@ -59,15 +62,13 @@ class AuthenticationBloc
 
   Future<FutureOr<void>> logInUserEvent(
       LogInUserEvent event, Emitter<AuthenticationState> emit) async {
+        emit(AuthenticationLoadingState());
     try {
-      emit(AuthenticationLoadingState());
-
       final res = await _userLoginUsecase(
           params: UserEntity(
         userEmail: event.userEmail,
         userPassword: event.userPassword,
       ));
-
       res.fold(
         (left) {
           emit(AuthenticationErrorState(message: left.message));
@@ -89,7 +90,13 @@ class AuthenticationBloc
       final res = await _userLogoutUsecase(params: null);
       res.fold(
         (left) => emit(AuthenticationErrorState(message: left.message)),
-        (isLoggedOut) => isLoggedOut,
+        (isLoggedOut) {
+          if (isLoggedOut != null) {
+            if (isLoggedOut) {
+              emit(AuthenticationInitial(isUserLoggedIn: false));
+            }
+          }
+        },
       );
     } catch (e) {
       emit(AuthenticationErrorState(message: e.toString()));
@@ -99,24 +106,17 @@ class AuthenticationBloc
   Future<FutureOr<void>> checkUserLoggedInEvent(
       CheckUserLoggedInEvent event, Emitter<AuthenticationState> emit) async {
     try {
-      await Future.delayed(const Duration(seconds: 3));
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       final isLoggedIn = sharedPreferences.getBool(userAuthStatus);
-      if (isLoggedIn == null || isLoggedIn == false) {
-        emit(UserNotAuthenticated());
-      } else {
-        emit(UserAuthenticated());
-      }
+      emit(AuthenticationInitial(isUserLoggedIn: isLoggedIn));
     } catch (e) {
-      emit(UserNotAuthenticated());
+      emit(AuthenticationErrorState(message: e.toString()));
     }
   }
 
   FutureOr<void> getCurrentUserIdEvent(
       GetCurrentUserIdEvent event, Emitter<AuthenticationState> emit) async {
-    emit(AuthenticationLoadingState());
-
     try {
       final res = await _getCurrentUserIdUsecase(params: null);
       res.fold(

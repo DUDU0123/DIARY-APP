@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -51,6 +48,15 @@ class DefaultFirebaseOptions {
         );
     }
   }
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyA8CddWNFvy8GzE63Sy4OwuX4cBiIcX5wo',
+    appId: '1:467235190090:web:55051096b132a5eb753db3',
+    messagingSenderId: '467235190090',
+    projectId: 'dialy-journal-app-project',
+    authDomain: 'dialy-journal-app-project.firebaseapp.com',
+    storageBucket: 'dialy-journal-app-project.appspot.com',
+  );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCN0N53zfpzwfo1mgMuLwhcYxboRpwnOYE',

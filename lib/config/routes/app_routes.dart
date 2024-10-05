@@ -6,13 +6,18 @@ import 'package:diary_app/features/settings/presentation/pages/profile_image_sho
 import 'package:diary_app/features/settings/presentation/pages/user_profile_settings_page.dart';
 import 'package:diary_app/features/wrapper/wrapper_page.dart';
 import 'package:flutter/material.dart';
-class AppRoutes{
-  static  Map<String, Widget Function(BuildContext)> routes = {
-    AppRouteName.loginPage : (context)=>const LoginPage(),
-    AppRouteName.signUpPage : (context)=>const SignUpPage(),
-    AppRouteName.wrapperPage : (context)=>const WrapperPage(),
-    AppRouteName.profileImagePage: (context)=> const ProfileImageShowWidget(),
-    AppRouteName.diaryHomePage : (context)=>const DiaryHomePage(),
-    AppRouteName.userProfileSettingsPage : (context)=>const UserProfileSettingsPage(),
+
+import '../../features/new_diary/presentation/widgets/new_diary_page_widgets/home_screen_view.dart';
+
+class AppRoutes {
+  static Map<String, Widget Function(BuildContext)> routes = {
+    AppRouteName.loginPage: (context) => const LoginPage(),
+    AppRouteName.signUpPage: (context) => const SignUpPage(),
+    AppRouteName.wrapperPage: (context) => const WrapperPage(),
+    AppRouteName.profileImagePage: (context) => const ProfileImageShowWidget(),
+    AppRouteName.diaryHomePage: (context) => const DiaryHomePage(),
+    AppRouteName.userProfileSettingsPage: (context) =>
+        const UserProfileSettingsPage(),
+    AppRouteName.newDiaryPage: (context) => const NewDiaryAddPage()
   };
 }

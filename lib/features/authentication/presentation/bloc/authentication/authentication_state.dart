@@ -11,7 +11,7 @@ final class AuthenticationInitial extends AuthenticationState {
   final bool? isUserLoggedIn;
   AuthenticationInitial({
     this.currentUserId,
-    this.isUserLoggedIn,
+    this.isUserLoggedIn = false,
   });
   @override
   List<Object?> get props => [
