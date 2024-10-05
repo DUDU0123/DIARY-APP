@@ -46,12 +46,11 @@ class _WrapperPageState extends State<WrapperPage>
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
-        if (state is AuthenticationInitial) {
-          if (state.isUserLoggedIn ?? false) {
-            return const DiaryHomePage();
-          } else {
-            return const LoginPage();
-          }
+        if (state is UserAuthenticated) {
+          return const DiaryHomePage();
+        }
+        if (state is UserNotAuthenticated) {
+          return const LoginPage();
         } else {
           return Scaffold(
             backgroundColor: kPink,
@@ -94,7 +93,6 @@ class _WrapperPageState extends State<WrapperPage>
                       ),
                     ),
                   ),
-                 
                 ],
               ),
             ),

@@ -28,9 +28,6 @@ class AuthenticationBloc
         _userLogoutUsecase = userLogoutUsecase,
         _getCurrentUserIdUsecase = getCurrentUserIdUsecase,
         super(AuthenticationInitial()) {
-    on<AuthenticationEvent>(
-      (event, emit) => emit(AuthenticationLoadingState()),
-    );
     on<SignUpUserEvent>(signUpUserEvent);
     on<LogInUserEvent>(logInUserEvent);
     on<LogOutUserEvent>(logOutUserEvent);
@@ -106,9 +103,13 @@ class AuthenticationBloc
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       final isLoggedIn = sharedPreferences.getBool(userAuthStatus);
-      emit(AuthenticationInitial(isUserLoggedIn: isLoggedIn));
+      if (isLoggedIn == null || isLoggedIn == false) {
+        emit(UserNotAuthenticated());
+      } else {
+        emit(UserAuthenticated());
+      }
     } catch (e) {
-      emit(AuthenticationErrorState(message: e.toString()));
+      emit(UserNotAuthenticated());
     }
   }
 
