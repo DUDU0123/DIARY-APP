@@ -37,7 +37,7 @@ class EntrySection extends StatelessWidget {
                 content: contentController.text,
                 createdAt: DateTime.now());
             print(diary.toString());
-            // context.read<DiaryManagerBloc>().add(AddDiaryEvent(diary));
+            context.read<DiaryManagerBloc>().add(AddDiaryEvent(diary));
           },
         )),
       ],
