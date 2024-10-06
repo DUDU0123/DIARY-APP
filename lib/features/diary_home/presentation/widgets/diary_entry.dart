@@ -2,6 +2,7 @@ import 'package:diary_app/core/common_entity/diary.dart';
 import 'package:diary_app/core/constants/height_width.dart';
 import 'package:diary_app/core/extensions/date_format.dart';
 import 'package:diary_app/features/diary_customisation/presentation/diary_view.dart';
+import 'package:diary_app/features/new_diary/presentation/screens/new_diary_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

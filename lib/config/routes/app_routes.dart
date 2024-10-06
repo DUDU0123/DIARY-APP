@@ -7,7 +7,7 @@ import 'package:diary_app/features/settings/presentation/pages/user_profile_sett
 import 'package:diary_app/features/wrapper/wrapper_page.dart';
 import 'package:flutter/material.dart';
 
-import '../../features/new_diary/presentation/widgets/new_diary_page_widgets/home_screen_view.dart';
+import '../../features/new_diary/presentation/screens/new_diary_page.dart';
 
 class AppRoutes {
   static Map<String, Widget Function(BuildContext)> routes = {
