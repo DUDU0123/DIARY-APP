@@ -110,10 +110,6 @@ class AuthenticationRemoteDataImpl extends AuthenticationRemoteData {
     if (firebaseAuth.currentUser != null) {
       await firebaseAuth.signOut();
       await setUserAuthStatus(value: false);
-      navigatorKey.currentState?.pushNamedAndRemoveUntil(
-        AppRouteName.loginPage,
-        (route) => false,
-      );
       return true;
     } else {
       return false;

@@ -7,8 +7,9 @@ LinearGradient commonGradientColor() {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      kAmber.withOpacity(0.4),
-      kYellow.withOpacity(0.6),
+      // kAmber.withOpacity(0.4),
+kPink,
+      kPink.withOpacity(0.9),
     ],
   );
 }

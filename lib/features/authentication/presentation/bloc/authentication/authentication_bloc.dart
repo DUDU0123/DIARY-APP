@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:diary_app/config/routes/routes_name.dart';
+import 'package:diary_app/core/constants/navigator_key.dart';
 import 'package:diary_app/features/authentication/data/data_sources/authentication_remote_data.dart';
 import 'package:diary_app/features/authentication/domain/entity/user_entity/user_entity.dart';
 import 'package:diary_app/features/authentication/domain/usecase/get_current_userid_usecase.dart';
@@ -62,7 +64,7 @@ class AuthenticationBloc
 
   Future<FutureOr<void>> logInUserEvent(
       LogInUserEvent event, Emitter<AuthenticationState> emit) async {
-        emit(AuthenticationLoadingState());
+    emit(AuthenticationLoadingState());
     try {
       final res = await _userLoginUsecase(
           params: UserEntity(
@@ -94,6 +96,10 @@ class AuthenticationBloc
           if (isLoggedOut != null) {
             if (isLoggedOut) {
               emit(AuthenticationInitial(isUserLoggedIn: false));
+              navigatorKey.currentState?.pushNamedAndRemoveUntil(
+                AppRouteName.loginPage,
+                (route) => false,
+              );
             }
           }
         },

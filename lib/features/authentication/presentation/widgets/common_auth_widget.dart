@@ -62,7 +62,7 @@ class AuthWidget extends StatelessWidget {
                       children: [
                         kHeight30,
                         TextWidgetCommon(
-                          textColor: kLightYellowColor,
+                          textColor: kPink,
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
                           text: pageType == PageType.login ? "Login" : "SignUp",
@@ -70,9 +70,10 @@ class AuthWidget extends StatelessWidget {
                         kHeight30,
                         TextFieldCommon(
                           hintText: "Enter email",
+                          style:const TextStyle(color: kWhite),
                           hintStyle: const TextStyle(color: kWhite),
                           border: const OutlineInputBorder(
-                              borderSide: BorderSide(color: kLightYellowColor)),
+                              borderSide: BorderSide(color: kPink)),
                           controller: emailController,
                           textAlign: TextAlign.start,
                         ),
@@ -80,8 +81,9 @@ class AuthWidget extends StatelessWidget {
                         TextFieldCommon(
                           hintText: "Enter password",
                           hintStyle: const TextStyle(color: kWhite),
+                          style:const TextStyle(color: kWhite),
                           border: const OutlineInputBorder(
-                              borderSide: BorderSide(color: kLightYellowColor)),
+                              borderSide: BorderSide(color: kPink)),
                           controller: passwordController,
                           textAlign: TextAlign.start,
                         ),

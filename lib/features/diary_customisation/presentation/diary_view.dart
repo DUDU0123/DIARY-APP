@@ -44,16 +44,19 @@ class DiaryViewPage extends StatelessWidget {
     );
   }
 
-  Column _buildBody() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        DiaryDate(date: diary.createdAt),
-        kHeight15,
-        DiaryTitle(title: diary.title),
-        kHeight15,
-        Expanded(child: DiaryContent(content: diary.content)),
-      ],
+  Widget _buildBody() {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          DiaryDate(date: diary.createdAt),
+          kHeight15,
+          DiaryTitle(title: diary.title),
+          kHeight15,
+          Expanded(child: DiaryContent(content: diary.content)),
+        ],
+      ),
     );
   }
 
