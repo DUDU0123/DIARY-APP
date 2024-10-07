@@ -1,4 +1,5 @@
 import 'package:diary_app/core/constants/colors.dart';
+import 'package:diary_app/core/constants/navigator_key.dart';
 import 'package:flutter/material.dart';
 
 class NewDiaryAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -8,13 +9,22 @@ class NewDiaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: kPink,
-      leading: const Icon(Icons.arrow_back_ios),
-      actions: const [
+      leading: GestureDetector(
+        onTap: () {
+          navigatorKey.currentState?.pop();
+        },
+        child: const Icon(Icons.arrow_back_ios)),
+      actions:  [
         Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Icon(
-            Icons.cancel,
-            color: kRed,
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            onTap: () {
+              navigatorKey.currentState?.pop();
+            },
+            child: const Icon(
+              Icons.cancel,
+              color: kRed,
+            ),
           ),
         ),
       ],

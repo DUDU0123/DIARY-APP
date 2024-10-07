@@ -56,7 +56,7 @@ class TextFieldCommon extends StatelessWidget {
       minLines: minLines ?? 1,
       focusNode: focusNode,
       cursorColor: cursorColor ?? kBlack,
-      style: style ?? const TextStyle(color: Colors.white),
+      style: style ?? const TextStyle(color: Colors.black),
       keyboardType: keyboardType,
       controller: controller,
       enabled: enabled,

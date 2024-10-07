@@ -13,7 +13,7 @@ import '../../../../core/constants/colors.dart';
 class NewDiaryAddPage extends StatelessWidget {
   final Diary? diary;
 
-  const NewDiaryAddPage({Key? key, this.diary}) : super(key: key);
+  const NewDiaryAddPage({super.key, this.diary});
 
   @override
   Widget build(BuildContext context) {

@@ -20,6 +20,7 @@ Future<dynamic> commonSettingsTextFieldDialogBox({
         title: TextWidgetCommon(
             text: "New ${fieldType == FieldType.name ? "Name" : "Password"}"),
         content: TextFieldCommon(
+          
           textAlign: TextAlign.start,
           controller: textEditingController,
           border: const OutlineInputBorder(),
