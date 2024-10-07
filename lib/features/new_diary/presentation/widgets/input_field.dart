@@ -2,9 +2,16 @@ import 'package:diary_app/core/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class InputField extends StatelessWidget {
-  final String hintText;
+  final String? hintText;
   final Icon? leadingIcon;
-  const InputField({super.key, required this.hintText, this.leadingIcon});
+  final TextEditingController controller;
+  final bool? isEnabled;
+  const InputField(
+      {super.key,
+      this.hintText,
+      this.leadingIcon,
+      required this.controller,
+      this.isEnabled});
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +19,7 @@ class InputField extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: Container(
           decoration: BoxDecoration(
-              color: kLightYellowColor,
-              borderRadius: BorderRadius.circular(20)),
+              color: kFadedYellow, borderRadius: BorderRadius.circular(20)),
           child: Padding(
             padding: const EdgeInsets.only(left: 10, right: 10),
             child: Row(
@@ -21,6 +27,8 @@ class InputField extends StatelessWidget {
                 leadingIcon ?? const SizedBox(),
                 Expanded(
                   child: TextField(
+                    controller: controller,
+                    enabled: isEnabled ?? true,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: hintText,

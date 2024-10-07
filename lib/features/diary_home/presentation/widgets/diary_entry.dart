@@ -1,12 +1,17 @@
+import 'package:diary_app/core/common_entity/diary.dart';
 import 'package:diary_app/core/constants/height_width.dart';
+import 'package:diary_app/core/extensions/date_format.dart';
 import 'package:diary_app/features/diary_customisation/presentation/diary_view.dart';
+import 'package:diary_app/features/new_diary/presentation/screens/new_diary_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../core/constants/colors.dart';
 
 class DiaryEntry extends StatelessWidget {
-  const DiaryEntry({super.key, required this.index});
+  const DiaryEntry({super.key, required this.index, required this.diary});
   final int index;
+  final Diary diary;
   Color _getColor(int index) {
     switch (index % 3) {
       case 0:
@@ -39,11 +44,18 @@ class DiaryEntry extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => DiaryViewPage()));
+          HapticFeedback.heavyImpact();
+
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => DiaryViewPage(
+                diary: diary,
+              ),
+            ),
+          );
         },
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 16),
           decoration: BoxDecoration(
             color: _getColor(index),
             borderRadius: BorderRadius.circular(10),
@@ -51,15 +63,31 @@ class DiaryEntry extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Icon(_getIcon(index), color: Colors.red),
-                  kWidth10,
-                  const Text(
-                    '3/07/2004',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ],
+              Expanded(
+                child: Row(
+                  children: [
+                    Icon(_getIcon(index), color: Colors.red),
+                    kWidth10,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            diary.title,
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            diary.createdAt.formatToMMMddyyyy(),
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const Icon(
                 Icons.chevron_right,

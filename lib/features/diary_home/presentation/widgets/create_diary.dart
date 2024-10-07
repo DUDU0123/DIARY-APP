@@ -1,6 +1,7 @@
 import 'package:diary_app/config/routes/routes_name.dart';
 import 'package:diary_app/core/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CreateDiary extends StatelessWidget {
   const CreateDiary({super.key});
@@ -9,6 +10,7 @@ class CreateDiary extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        HapticFeedback.heavyImpact();
         Navigator.pushNamed(context, AppRouteName.newDiaryPage);
       },
       child: Container(

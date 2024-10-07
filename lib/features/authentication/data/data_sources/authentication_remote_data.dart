@@ -104,11 +104,12 @@ class AuthenticationRemoteDataImpl extends AuthenticationRemoteData {
       throw ServerException(message: "An unexpected error occured");
     }
   }
-@override
+
+  @override
   Future<bool?> logOutUser() async {
     if (firebaseAuth.currentUser != null) {
       await firebaseAuth.signOut();
-      setUserAuthStatus(value: false);
+      await setUserAuthStatus(value: false);
       navigatorKey.currentState?.pushNamedAndRemoveUntil(
         AppRouteName.loginPage,
         (route) => false,

@@ -1,48 +1,85 @@
+import 'package:diary_app/core/common_entity/diary.dart';
 import 'package:diary_app/core/constants/colors.dart';
 import 'package:diary_app/core/constants/height_width.dart';
 import 'package:diary_app/features/diary_customisation/presentation/widgets/diary_content.dart';
 import 'package:diary_app/features/diary_customisation/presentation/widgets/diary_date.dart';
 import 'package:diary_app/features/diary_customisation/presentation/widgets/diary_title.dart';
+import 'package:diary_app/features/diary_customisation/presentation/widgets/diary_view_page.dart/app_bar.dart';
+import 'package:diary_app/features/diary_customisation/presentation/widgets/diary_view_page.dart/snack_bar.dart';
+import 'package:diary_app/features/new_diary/presentation/bloc/diary_manager/diary_manager_bloc.dart';
+import 'package:diary_app/features/new_diary/presentation/screens/new_diary_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quickalert/quickalert.dart';
 
 class DiaryViewPage extends StatelessWidget {
-  final String title = "A Beautiful Day";
-  final String content =
-      "Dear diary,\n\nToday was absolutely wonderful! The sun was shining, and I decided to take a long walk in the park. The flowers were in full bloom, filling the air with their sweet fragrance. I saw families picnicking and children playing joyfully.\n\nLater, I met up with Sarah for coffee. We caught up on old times and shared our recent experiences. It's always refreshing to connect with good friends.\n\nIn the evening, I treated myself to a home-cooked meal and watched my favorite movie. These simple pleasures remind me of how beautiful life can be.\n\nI'm grateful for days like this that rejuvenate my spirit and remind me to appreciate the little things in life.";
-  final DateTime date = DateTime(2023, 5, 15);
+  final Diary diary;
 
-  DiaryViewPage({super.key});
+  const DiaryViewPage({super.key, required this.diary});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kPink,
-      appBar: AppBar(
+    return BlocListener<DiaryManagerBloc, DiaryManagerState>(
+      listener: (context, state) {
+        if (state is DiaryDeleted) {
+          Navigator.pop(context);
+          showSnackBar(context, 'Diary Deleted');
+        } else if (state is DiaryDeleteFailed) {
+          showSnackBar(context, 'Failed to delete diary');
+        }
+      },
+      child: Scaffold(
         backgroundColor: kPink,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.edit, color: kdarkerRed),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Icons.delete, color: kdarkerRed),
-            onPressed: () {},
-          ),
-        ],
+        appBar: _buildAppBar(context),
+        body: _buildBody(),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            DiaryDate(date: date),
-            kHeight15,
-            DiaryTitle(title: title),
-            kHeight15,
-            Expanded(child: DiaryContent(content: content)),
-          ],
-        ),
+    );
+  }
+
+  DiaryViewAppBar _buildAppBar(BuildContext context) {
+    return DiaryViewAppBar(
+      diary: diary,
+      onDeletePressed: onDeletePressed,
+      onEditPressed: () => onEditPressed(context),
+    );
+  }
+
+  Column _buildBody() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        DiaryDate(date: diary.createdAt),
+        kHeight15,
+        DiaryTitle(title: diary.title),
+        kHeight15,
+        Expanded(child: DiaryContent(content: diary.content)),
+      ],
+    );
+  }
+
+  void onEditPressed(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (ctx) => NewDiaryAddPage(diary: diary),
       ),
+    );
+  }
+
+  void onDeletePressed(BuildContext context) {
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.confirm,
+      title: 'Delete Diary',
+      text: 'Are you sure you want to delete this diary entry?',
+      confirmBtnText: 'Delete',
+      cancelBtnText: 'Cancel',
+      confirmBtnColor: Colors.red,
+      onCancelBtnTap: () => Navigator.pop(context),
+      onConfirmBtnTap: () {
+        context.read<DiaryManagerBloc>().add(DeleteDiary(diary.id));
+        Navigator.pop(context);
+      },
     );
   }
 }
