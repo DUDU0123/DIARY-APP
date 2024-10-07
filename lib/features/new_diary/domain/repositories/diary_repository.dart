@@ -4,4 +4,6 @@ import 'package:fpdart/fpdart.dart';
 
 abstract class DiaryRepository {
   Future<Either<Failure, void>> addDiaryEntry(Diary diary);
+  Future<Either<Failure, void>> editDiaryEntry(Diary diary);
+  Future<Either<Failure, void>> deleteDiary(String id);
 }

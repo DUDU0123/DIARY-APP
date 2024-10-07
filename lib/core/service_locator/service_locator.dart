@@ -16,6 +16,8 @@ import 'package:diary_app/features/new_diary/data/datasources/diary_remote_data_
 import 'package:diary_app/features/new_diary/data/repositories/diary_repository_impl.dart';
 import 'package:diary_app/features/new_diary/domain/repositories/diary_repository.dart';
 import 'package:diary_app/features/new_diary/domain/usecases/add_diary_entry.dart';
+import 'package:diary_app/features/new_diary/domain/usecases/delete_diary_entry.dart';
+import 'package:diary_app/features/new_diary/domain/usecases/ediit_diary_entry.dart';
 import 'package:diary_app/features/new_diary/presentation/bloc/diary_manager/diary_manager_bloc.dart';
 import 'package:diary_app/features/settings/data/data_sources/profile_manager/profile_manager.dart';
 import 'package:diary_app/features/settings/data/repository/profile_manager_repo_impl/profile_manager_repo_impl.dart';
@@ -120,7 +122,10 @@ void initDiaryDependencies() {
     ..registerFactory<DiaryRepository>(
         () => DiaryRepositoryImpl(serviceLocator()))
     ..registerFactory(() => AddDiaryEntry(serviceLocator()))
-    ..registerFactory(() => DiaryManagerBloc(serviceLocator()));
+    ..registerFactory(() => EditDiaryEntry(serviceLocator()))
+    ..registerFactory(() => DeleteDiaryEntry(serviceLocator()))
+    ..registerFactory(() => DiaryManagerBloc(serviceLocator<AddDiaryEntry>(),
+        serviceLocator<EditDiaryEntry>(), serviceLocator<DeleteDiaryEntry>()));
 }
 
 void diaryFeed() {

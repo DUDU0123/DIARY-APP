@@ -12,3 +12,15 @@ final class AddDiaryEvent extends DiaryManagerEvent {
 
   const AddDiaryEvent(this.diary);
 }
+
+final class EditDiary extends DiaryManagerEvent {
+  final Diary diary;
+
+  const EditDiary(this.diary);
+}
+
+final class DeleteDiary extends DiaryManagerEvent {
+  final String id;
+
+  const DeleteDiary(this.id);
+}

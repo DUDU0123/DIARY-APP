@@ -20,4 +20,24 @@ class DiaryRepositoryImpl implements DiaryRepository {
       return left(Failure(message: e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> editDiaryEntry(Diary diary) async {
+    try {
+      return Right(
+          await remoteDataSource.editDiaryEntry(DiaryModel.fromEntity(diary)));
+    } catch (e) {
+      return left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteDiary(String id) async {
+    try {
+      return Right(await remoteDataSource.deleteDiaryEntry(id));
+    } catch (e) {
+      print('print from diary repo');
+      return left(Failure(message: e.toString()));
+    }
+  }
 }

@@ -9,11 +9,22 @@ import 'package:uuid/uuid.dart';
 
 // ignore: must_be_immutable
 class EntrySection extends StatelessWidget {
-  TextEditingController contentController = TextEditingController();
-  final TextEditingController dateController = TextEditingController();
-  final TextEditingController titleController = TextEditingController();
+  final Diary? diary;
+  late TextEditingController contentController;
+  late TextEditingController dateController;
+  late TextEditingController titleController;
 
-  EntrySection({super.key});
+  EntrySection({
+    super.key,
+    this.diary,
+  }) {
+    contentController = TextEditingController(text: diary?.content ?? "");
+    dateController = TextEditingController(
+        text: diary?.createdAt.formatToMMMddyyyy() ??
+            DateTime.now().formatToMMMddyyyy());
+    contentController = TextEditingController(text: diary?.content ?? "");
+    titleController = TextEditingController(text: diary?.title ?? "");
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -32,15 +43,25 @@ class EntrySection extends StatelessWidget {
             child: DiaryEntryField(
           contentController: contentController,
           onSave: () {
-            Diary diary = Diary(
-                id: const Uuid().v4(),
-                title: titleController.text.trim(),
-                content: contentController.text.trim(),
-                createdAt: DateTime.now());
-            context.read<DiaryManagerBloc>().add(AddDiaryEvent(diary));
+            onButtonPressed(context);
           },
         )),
       ],
     );
+  }
+
+  void onButtonPressed(BuildContext context) {
+    // Creates a new Diary model based on the input data from the text controllers.
+    Diary diaryModel = Diary(
+      id: diary?.id ?? const Uuid().v4(),
+      title: titleController.text.trim(),
+      content: contentController.text.trim(),
+      createdAt: diary?.createdAt ?? DateTime.now(),
+    );
+
+    //If the diary already exists (has an ID), triggers an EditDiary event; otherwise, triggers an AddDiaryEvent.
+    context.read<DiaryManagerBloc>().add(
+          diary?.id == null ? AddDiaryEvent(diaryModel) : EditDiary(diaryModel),
+        );
   }
 }
