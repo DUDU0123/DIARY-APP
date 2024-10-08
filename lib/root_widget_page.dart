@@ -22,7 +22,7 @@ class RootWidgetPage extends StatelessWidget {
             ..add(
               CheckUserLoggedInEvent(),
             ),
-        ),
+        ), 
         BlocProvider(
           create: (context) => serviceLocator<SettingUserProfileBloc>(),
         ),

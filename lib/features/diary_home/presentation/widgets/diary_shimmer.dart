@@ -4,8 +4,9 @@ import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/height_width.dart';
 
 class DiaryEntryShimmer extends StatelessWidget {
-  const DiaryEntryShimmer({super.key, });
-
+  const DiaryEntryShimmer({
+    super.key,
+  });
 
   Color _getColor(int index) {
     switch (index % 3) {

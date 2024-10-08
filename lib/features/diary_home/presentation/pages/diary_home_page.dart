@@ -13,6 +13,7 @@ class DiaryHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: kPink,
       appBar: AppBar(
         backgroundColor: kPink,
@@ -23,22 +24,20 @@ class DiaryHomePage extends StatelessWidget {
       ),
       body: const Padding(
         padding: EdgeInsets.only(left: 28, right: 28, top: 28),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              CreateDiary(),
-              kHeight15,
-              DiarySearchField(),
-              kHeight15,
-              Text(
-                'Recents',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              kHeight10,
-              DiaryItems()
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            CreateDiary(),
+            kHeight15,
+            DiarySearchField(),
+            kHeight15,
+            Text(
+              'Recents',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            kHeight10,
+            DiaryItems()
+          ],
         ),
       ),
     );

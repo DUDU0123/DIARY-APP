@@ -12,6 +12,7 @@ part 'diary_feed_state.dart';
 class DiaryFeedCubit extends Cubit<DiaryFeedState> {
   final GetDiariesUseCases getDiariesUseCases;
   StreamSubscription<Either<Failure, List<Diary>>>? _diarySubscription;
+  List<Diary> _allDiaries = [];
 
   DiaryFeedCubit({required this.getDiariesUseCases})
       : super(DiaryFeedInitial());
@@ -20,13 +21,14 @@ class DiaryFeedCubit extends Cubit<DiaryFeedState> {
     emit(DiaryFeedLoading());
     _diarySubscription?.cancel();
     final streamRes = getDiariesUseCases.call();
-    streamRes.listen(
+    _diarySubscription = streamRes.listen(
       (value) {
         value.fold(
           (failure) => emit(DiaryFailure(failureMsg: failure.message)),
-          (success) => emit(
-            DiaryFeedSuccess(myDiaries: success),
-          ),
+          (success) {
+            _allDiaries = success;
+            emit(DiaryFeedSuccess(myDiaries: success));
+          },
         );
       },
       onError: (error) => emit(
@@ -35,5 +37,23 @@ class DiaryFeedCubit extends Cubit<DiaryFeedState> {
         ),
       ),
     );
+  }
+
+  void searchDiaries(String query) {
+    if (query.isEmpty) {
+      emit(DiaryFeedSuccess(myDiaries: _allDiaries));
+    } else {
+      final filteredDiaries = _allDiaries.where((diary) {
+        return diary.title.toLowerCase().contains(query.toLowerCase()) ||
+            diary.content.toLowerCase().contains(query.toLowerCase());
+      }).toList();
+      emit(DiaryFeedSuccess(myDiaries: filteredDiaries));
+    }
+  }
+
+  @override
+  Future<void> close() {
+    _diarySubscription?.cancel();
+    return super.close();
   }
 }
