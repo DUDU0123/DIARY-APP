@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 class DiaryEntryField extends StatelessWidget {
   final TextEditingController contentController;
   final Function() onSave;
+  final FocusNode? focusNode;
 
   const DiaryEntryField({
     super.key,
     required this.contentController,
     required this.onSave,
+    this.focusNode,
   });
 
   @override

@@ -7,24 +7,59 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
-// ignore: must_be_immutable
-class EntrySection extends StatelessWidget {
+class EntrySection extends StatefulWidget {
   final Diary? diary;
+
+  const EntrySection({
+    Key? key,
+    this.diary,
+  }) : super(key: key);
+
+  @override
+  _EntrySectionState createState() => _EntrySectionState();
+}
+
+class _EntrySectionState extends State<EntrySection> {
   late TextEditingController contentController;
   late TextEditingController dateController;
   late TextEditingController titleController;
 
-  EntrySection({
-    super.key,
-    this.diary,
-  }) {
-    contentController = TextEditingController(text: diary?.content ?? "");
+  late FocusNode titleFocusNode;
+  late FocusNode contentFocusNode;
+
+  @override
+  void initState() {
+    super.initState();
+
+    contentController =
+        TextEditingController(text: widget.diary?.content ?? "");
     dateController = TextEditingController(
-        text: diary?.createdAt.formatToMMMddyyyy() ??
-            DateTime.now().formatToMMMddyyyy());
-    contentController = TextEditingController(text: diary?.content ?? "");
-    titleController = TextEditingController(text: diary?.title ?? "");
+      text: widget.diary?.createdAt.formatToMMMddyyyy() ??
+          DateTime.now().formatToMMMddyyyy(),
+    );
+    titleController = TextEditingController(text: widget.diary?.title ?? "");
+
+    titleFocusNode = FocusNode();
+    contentFocusNode = FocusNode();
+
+    titleFocusNode.addListener(() {
+      if (!titleFocusNode.hasFocus) {
+        FocusScope.of(context).requestFocus(contentFocusNode);
+      }
+    });
   }
+
+  @override
+  void dispose() {
+    contentController.dispose();
+    dateController.dispose();
+    titleController.dispose();
+
+    titleFocusNode.dispose();
+    contentFocusNode.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,34 +69,39 @@ class EntrySection extends StatelessWidget {
           hintText: DateTime.now().formatToMMMddyyyy(),
           controller: dateController,
           leadingIcon: const Icon(Icons.calendar_month),
+          onchanged: (value) {},
         ),
         InputField(
           hintText: 'Title',
           controller: titleController,
+          focusNode: titleFocusNode,
+          onchanged: (value) => titleController.text = value,
         ),
         Expanded(
-            child: DiaryEntryField(
-          contentController: contentController,
-          onSave: () {
-            onButtonPressed(context);
-          },
-        )),
+          child: DiaryEntryField(
+            contentController: contentController,
+            focusNode: contentFocusNode,
+            onSave: () {
+              onButtonPressed(context);
+            },
+          ),
+        ),
       ],
     );
   }
 
   void onButtonPressed(BuildContext context) {
-    // Creates a new Diary model based on the input data from the text controllers.
     Diary diaryModel = Diary(
-      id: diary?.id ?? const Uuid().v4(),
+      id: widget.diary?.id ?? const Uuid().v4(),
       title: titleController.text.trim(),
       content: contentController.text.trim(),
-      createdAt: diary?.createdAt ?? DateTime.now(),
+      createdAt: widget.diary?.createdAt ?? DateTime.now(),
     );
 
-    //If the diary already exists (has an ID), triggers an EditDiary event; otherwise, triggers an AddDiaryEvent.
     context.read<DiaryManagerBloc>().add(
-          diary?.id == null ? AddDiaryEvent(diaryModel) : EditDiary(diaryModel),
+          widget.diary?.id == null
+              ? AddDiaryEvent(diaryModel)
+              : EditDiary(diaryModel),
         );
   }
 }
